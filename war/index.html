@@ -1,0 +1,256 @@
+<!doctype html>
+
+<html itemscope itemtype="http://schema.org/Article"  lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="Polymer Starter Kit">
+  <meta name="google-signin-client_id" content="309435708548-1gdb132v9q00p53kbs7eot6i7abtt0n1.apps.googleusercontent.com">
+  <title>Weave Developement Environment</title>
+
+  <!-- Place favicon.ico in the `app/` directory -->
+
+  <!-- Chrome for Android theme color -->
+  <meta name="theme-color" content="#2E3AA1">
+
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Tile color for Win8 -->
+  <meta name="msapplication-TileColor" content="#3372DF">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="PSK">
+  <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
+  <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+
+  <!-- Tile icon for Win8 (144x144) -->
+  <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild-->
+  
+  
+  <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <!-- endbuild -->
+  <script src="scripts/weave-discovery.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+  <!-- Because this project uses vulcanize this should be your only html import
+       in this file. All other imports should go in elements.html -->
+  <link rel="import" href="elements/elements.html">
+
+  <!-- For shared styles, shared-styles.html import in elements.html -->
+  <style is="custom-style" include="shared-styles"></style>
+  <script>
+    function start() {
+    	alert("In start");
+      gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+          client_id: '309435708548-1gdb132v9q00p53kbs7eot6i7abtt0n1.apps.googleusercontent.com',
+          // Scopes to request in addition to 'profile' and 'email'
+          scope: 'https://www.googleapis.com/auth/weave.app'
+        });
+      });
+      console.log(auth2);
+    }
+  </script>
+</head>
+
+<body unresolved>
+  <span id="browser-sync-binding"></span>
+  <template is="dom-bind" id="app">
+    <paper-drawer-panel id="paperDrawerPanel">
+      <!-- Drawer Scroll Header Panel -->
+      <paper-scroll-header-panel drawer fixed>
+
+        <!-- Drawer Toolbar -->
+        <paper-toolbar class="drawer">
+          <div><iron-icon icon="icons:account-circle"></iron-icon></div>
+          <span id="afterSignIn"></span>
+        </paper-toolbar>
+
+        <!-- Drawer Content -->
+        <paper-menu attr-for-selected="data-route" selected="[[route]]">
+          <a data-route="home" href="{{baseUrl}}">
+            <iron-icon icon="home"></iron-icon>
+            <span>Home</span>
+          </a>
+
+          <paper-submenu attr-for-selected="data-route" selected="[[route]]">
+
+          <paper-item class="menu-trigger"><iron-icon icon="icons:view-list"></iron-icon><span>Your Devices <span id="totalDevices"></span></span></paper-item>
+
+          <paper-menu class="menu-content">
+          <template is="dom-repeat" items="{{devices}}" as="device">
+            <a id="draggable" href="{{baseUrl}}users/[[device.name]]"><paper-item id="[[device.id]]"><div class="ui-widget-content">[[device.name]]</div></paper-item></a>
+          </template>
+          </paper-menu>
+          </paper-submenu>
+
+          <a data-route="contact" href="{{baseUrl}}contact">
+            <iron-icon icon="mail"></iron-icon>
+            <span>Contact</span>
+          </a>
+
+          <a data-route="editor" href="{{baseUrl}}editor">
+            <iron-icon icon="mail"></iron-icon>
+            <span>Editor</span>
+          </a>
+
+        </paper-menu>
+      </paper-scroll-header-panel>
+
+      <!-- Main Area -->
+      <paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar" class="tall">
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+
+          <span class="space"></span>
+
+          <!-- Toolbar icons -->
+          <paper-button toggles raised on-click="authorizeNewDevices">Authorize Devices</paper-button>
+<!--          <google-signin theme="dark"  -->
+<!--           client-id="309435708548-1gdb132v9q00p53kbs7eot6i7abtt0n1.apps.googleusercontent.com" -->
+<!--           scopes="https://www.googleapis.com/auth/weave.app" offline=true> -->
+<!--           </google-signin>  -->
+		
+			<a href="https://accounts.google.com/o/oauth2/auth?client_id=309435708548-fsvfu060n29531ufr5qqqgf7t2jhhvan.apps.googleusercontent.com&redirect_uri=http://localhost:8080/AmeyaWeave/ExServlet&response_type=code&scope=https://www.googleapis.com/auth/weave.app">
+			Log in</a>
+			
+<!-- 			<paper-button toggles raised on-click="googleBackendSignin">Google Signin</paper-button> -->
+			
+			<div class="g-signin2" data-onsuccess="onSignIn"></div>
+			
+			<a href="#" onclick="signOut();">Sign out</a>
+			
+          <!-- Application name -->
+          <div class="middle middle-container">
+            <div class="app-name">Weave Development Environment</div>
+          </div>
+
+          <!-- Application sub title -->
+          <div class="bottom bottom-container">
+            <div class="bottom-title">The future of the IoT today</div>
+          </div>
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <div class="content">
+          <iron-pages attr-for-selected="data-route" selected="{{route}}">
+            <section data-route="home">
+              <paper-material elevation="1">
+              <h1>Welcome! <span id = "name"></span></h1>
+              
+              </paper-material>
+
+              <paper-material elevation="1">
+                <p>This is another card.</p>
+              </paper-material>
+
+              <paper-material elevation="1">
+                <h1 id="license">License</h1>
+                <p>This is Weave Development Environment</p>
+              </paper-material>
+            </section>
+
+            <section data-route="users">
+              <div class="ui-widget-header">
+              <template is="dom-repeat" items="{{devices}}" as="device">
+              <paper-material elevation="1" id="[[device.name]]">
+                <h2 class="page-title">[[device.name]]</h2>
+                <p>This is the users section</p>
+                <a href$="{{baseUrl}}users/Addy">Addy</a><br>
+                <a href$="{{baseUrl}}users/Rob">Rob</a><br>
+                <a href$="{{baseUrl}}users/Chuck">Chuck</a><br>
+                <a href$="{{baseUrl}}users/Sam">Sam</a>
+              </paper-material>
+              </template>
+              </div>
+            </section>
+
+            <section data-route="user-info">
+              <paper-material elevation="1">
+                <h2 class="page-title">{{params.name}}</h2>
+                <div>This is {{params.name}}'s section [[device.id]] hello</div>
+              </paper-material>
+            </section>
+
+            <section data-route="contact">
+              <paper-material elevation="1">
+                <h2 class="page-title">Contact</h2>
+                <p>This is the contact section</p>
+              </paper-material>
+            </section>
+
+            <section data-route="editor">
+           	<div id="droppable">
+              <paper-material elevation="1">
+                <h2 class="page-title">Editor</h2>
+                <p>This is the Editor section</p>
+                <ace-widget theme="ace/theme/eclipse"  id="editor" >
+               {Some Text} 
+               </ace-widget>
+               <paper-button toggles raised on-click="runDeviceCommands">Run</paper-button>
+              </paper-material>
+              </div>
+            </section>
+          </iron-pages>
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+
+    <iron-ajax
+          url="https://www.googleapis.com/weave/v1/authorizedApps/createAppAuthenticationToken"
+          with-credentials
+          handle-as="json"
+          method="POST"
+          on-response="ajaxHandler"
+          id="ajax"></iron-ajax>
+    <paper-toast id="toast">
+      <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
+    </paper-toast>
+
+  </template>
+
+  <!-- build:js scripts/app.js -->
+  <!-- <script src="scripts/app.js"></script> -->
+  <script src="scripts/app.js"></script>
+  <script src="https://apis.google.com/js/client.js?onload=gapiLoaded"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+<!--     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script> -->
+  <!-- endbuild-->
+  
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+  </script>
+  <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
+  </script>
+  <script>
+  $(function() {
+	    $( "#draggable" ).draggable();
+	    $( "#droppable" ).droppable({
+	      drop: function( event, ui ) {
+	    	  console.log("asdasdasd")
+	        $( this ).html( "Dropped!" );
+	      }
+	    });
+	  });</script>
+ 
+</body>
+
+</html>
