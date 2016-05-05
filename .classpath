@@ -9,6 +9,6 @@
 	<classpathentry kind="lib" path="C:/Users/AMEYA/Downloads/clouddevices_java_client_library/clouddevices/libs/google-http-client-jackson2-1.19.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/AMEYA/Downloads/clouddevices_java_client_library/clouddevices/libs/google-oauth-client-1.19.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/AMEYA/Downloads/clouddevices_java_client_library/clouddevices/google-api-services-clouddevices-v1-rev20140812-1.19.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/AMEYA/workspace/Weaved/json-simple.jar"/>
+	<classpathentry kind="lib" path="C:/Users/AMEYA/workspace/Weaved/war/WEB-INF/lib/json-simple.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
